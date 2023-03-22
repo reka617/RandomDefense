@@ -16,4 +16,9 @@ public class UIManager : MonoBehaviour
     {
         _saleUI.SetActive(_saleUI.activeSelf == false);
     }
+
+    public void BtnSummonMonster()
+    {
+        MonsterManager.getInstance().AddMonster();
+    }
 }
