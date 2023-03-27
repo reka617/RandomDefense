@@ -24,7 +24,7 @@ public class MonsterAgent : MonoBehaviour
     {
         if (_paths == null) return;
         //목표 포지션과 거리 체크해서 다음 포지션으로 업데이트
-        if (Mathf.Abs(Vector3.Distance(transform.position, _paths.getPaths()[_pathIndex].position)) < 0.1f)
+        if (Mathf.Abs(Vector3.Distance(transform.position, _paths.getPaths()[_pathIndex].position)) < 0.45f)
         {
             _pathIndex++;
             if (_pathIndex >= _paths.getPaths().Length) _pathIndex = 0;
