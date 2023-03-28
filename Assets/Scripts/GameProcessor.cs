@@ -20,6 +20,7 @@ public class GameProcessor : MonoBehaviour
     public void ChangeGameState(GameState state)
     {
         _state = state;
+        if(_state != null) _state.OnEnter();
     }
 }
 
@@ -29,4 +30,10 @@ public class GameState
     {
 
     }
-}
+    public virtual void OnEnter()
+    {
+
+    }
+
+
+ }

@@ -7,7 +7,7 @@ public class UISummon : MonoBehaviour
 {
     public void BtnSummonUnit()
     {
-        UnitFactory.getInstance().BuyRandomUnit();
+        GenericSingleton<UnitFactory>.getInstance().BuyRandomUnit();
     }
 }
 
@@ -34,7 +34,7 @@ public class BigCapsuleUnit : Unit
     public override void Init(UnitStat stat)
     {
         _stat = stat;
-        _obj = UnitPool.GetInstance().GetPoolObject(EUnitType.CapsuleUnit);
+        _obj = GenericSingleton<UnitPool>.getInstance().GetPoolObject(EUnitType.CapsuleUnit);
         _obj.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         _obj.transform.position = new Vector3(Random.Range(-3, 3), 2, Random.Range(-3, 3));
     }
@@ -45,7 +45,7 @@ public class SmallCapsuleUnit : Unit
     public override void Init(UnitStat stat)
     {
         _stat = stat;
-        _obj = UnitPool.GetInstance().GetPoolObject(EUnitType.CapsuleUnit);
+        _obj = GenericSingleton<UnitPool>.getInstance().GetPoolObject(EUnitType.CapsuleUnit);
         _obj.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         _obj.transform.position = new Vector3(Random.Range(-3, 3), 2, Random.Range(-3, 3));
     }
@@ -56,7 +56,7 @@ public class BigCubeUnit : Unit
     public override void Init(UnitStat stat) 
     {
         _stat = stat;
-        _obj = UnitPool.GetInstance().GetPoolObject(EUnitType.CubeUnit);
+        _obj = GenericSingleton<UnitPool>.getInstance().GetPoolObject(EUnitType.CubeUnit);
         _obj.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         _obj.transform.position = new Vector3(Random.Range(-3, 3), 2, Random.Range(-3, 3));
     }
