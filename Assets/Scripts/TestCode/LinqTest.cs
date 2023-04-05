@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
+using UnityEngine.Pool;
 
 public class LinqTest : MonoBehaviour
 {
@@ -16,25 +18,27 @@ public class LinqTest : MonoBehaviour
     void Start()
     {
         //SearchHeight(1000f);
-        SearchMountainData();
+        //SearchLinqHeight(1000f);
+        SearhMoutainData();
     }
 
-    void SearchMountainData()
+    void SearhMoutainData()
     {
         var result = from m in _mountains
-                     where m.Length >= 2500 
-                     orderby m.Height ascending
+                     where m.Length > 2500// 어떤 조건의 데이터를 추출할 것인가.
+                     orderby m.Height ascending// 어떤 데이터를 기준으로 정렬할 것인가.
                      select m;
-
-        foreach(var m in result) 
+        foreach (var m in result)
         {
-            Debug.Log($"이름은 : {m.Name}, 높이 : {m.Height}, 등산로길이 : {m.Length}");
+            Debug.Log("이름은 : "+m.Name+", 높이 :"+m.Height+" , 등산로길이 : "+m.Length);
         }
     }
 
     void SearchLinqHeight(float height)
     {
-        var result = from m in _mountains where m.Height >= height orderby m.Height ascending select m;
+        var result = from m in _mountains  // 어떤 데이터 집합에서 가져올 것인가. 
+                     where m.Height > height
+                     select m; // 어떤 항목을 추출할 것인가.
         foreach(var m in result)
         {
             Debug.Log(m.Height + ", "+m.Name);
@@ -55,9 +59,10 @@ public class LinqTest : MonoBehaviour
 
 }
 
-public class Mountain
+public class Mountain 
 {
     public float Height;
     public string Name;
     public float Length;
 }
+

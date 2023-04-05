@@ -1,35 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Utils;
 
 public class RTSController : MonoBehaviour
 {
-    List<UnitCon> selectedUnitList = new List<UnitCon>();
+    Rect _dragRect;
+    Vector2 _start = Vector2.zero;
+    Vector2 _end = Vector2.zero;
 
+    List<UnitCon> selectedUnitList = new List<UnitCon>();
     public List<UnitCon> getUnitList()
     {
         return selectedUnitList;
     }
-
+    
     public void ClickSelectUnit(UnitCon unit)
     {
-        DeSelctAll();
+        DeSelectAll();
         SelectUnit(unit);
     }
-
     public void ShiftClickSelectUnit(UnitCon unit)
     {
         if(selectedUnitList.Contains(unit) == true)
         {
             DeSelectUnit(unit);
         }
-        else 
+        else
         {
             SelectUnit(unit);
         }
     }
-
     public void DragSelectUnit(UnitCon unit)
     {
         if(selectedUnitList.Contains(unit) == false)
@@ -37,31 +40,30 @@ public class RTSController : MonoBehaviour
             SelectUnit(unit);
         }
     }
-
-    public void DeSelctAll()
+    public void DeSelectAll()
     {
-        for(int i=0; i< selectedUnitList.Count;i++)
+        for(int i = 0; i < selectedUnitList.Count; i++)
         {
-            selectedUnitList[i].DeselectUnit();
+            selectedUnitList[i].DeSelectUnit();
         }
         selectedUnitList.Clear();
+        GenericSingleton<UIData>.getInstance().SetUnitInfo(false);
     }
-
     void SelectUnit(UnitCon unit)
     {
         unit.SelectUnit();
         selectedUnitList.Add(unit);
+        GenericSingleton<UIData>.getInstance().SetUnitInfo(true);
     }
-
     void DeSelectUnit(UnitCon unit)
     {
-        unit.DeselectUnit();
+        unit.DeSelectUnit();
         selectedUnitList.Remove(unit);
+        if (selectedUnitList.Count <= 0) GenericSingleton<UIData>.getInstance().SetUnitInfo(false);
     }
-
-    public void MoveSelectUnits(Vector3 dest)
+    public void MoveSelectedUnits(Vector3 dest)
     {
-        for(int i=0;i< selectedUnitList.Count;i++) 
+        for(int i = 0; i < selectedUnitList.Count; i++)
         {
             selectedUnitList[i].MoveTo(dest);
         }
@@ -75,33 +77,115 @@ public class RTSController : MonoBehaviour
 
     void MouseClick()
     {
-        if(Input.GetMouseButtonDown(0)) // 선택명령
+        if(Input.GetMouseButtonDown(0))//선택 명령
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity,1 << LayerMask.NameToLayer("Unit")))
+            if(Physics.Raycast(ray,out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Unit")))
             {
                 UnitCon con = hit.transform.GetComponent<UnitCon>();
                 if (con == null) return;
-                if(Input.GetKey(KeyCode.LeftShift)) 
+                if(Input.GetKey(KeyCode.LeftShift))
                 {
                     GenericSingleton<RTSController>.getInstance().ShiftClickSelectUnit(con);
                 }
                 else
                 {
-                    GenericSingleton<RTSController>.getInstance().ClickSelectUnit(con); 
+                    GenericSingleton<RTSController>.getInstance().ClickSelectUnit(con);
                 }
-
+            }
+            else
+            {
+                if(Input.GetKey(KeyCode.LeftShift) == false)
+                {
+                    DeSelectAll();
+                }
             }
         }
-        if (Input.GetMouseButtonDown(1)) // 이동명령
+        if(Input.GetMouseButtonDown(1))//이동 명령
         {
-            
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("UnitBase")))
+            {
+                MoveSelectedUnits(hit.point);
+            }
+        }
+    }
+    void MouseDrag()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            // 마우스 시작 포지션 저장
+            // 사각형 정보를 생성
+            _start = Input.mousePosition;
+            _dragRect = new Rect();
+        }
+
+        if(Input.GetMouseButton(0))
+        {
+            _end = Input.mousePosition;
+
+            DrawDragRect();
+            // 종료 위치 저장
+            // 사각형 그리기를 갱신
+        }
+        if(Input.GetMouseButtonUp(0))
+        {
+            CalculateDragRect();
+            SelectUnits();
+
+            _start = _end = Vector2.zero;
+            DrawDragRect();
+            // 사각형 범위를 계산
+            // 유닛을 선택
+            //시작 포지션과 종료 포지션을 초기화
+            // 사각형 그리기를 갱신
+        }
+    }
+    void DrawDragRect()
+    {
+        GenericSingleton<UIData>.getInstance().getRect().position = (_start + _end) * 0.5f;
+        GenericSingleton<UIData>.getInstance().getRect().sizeDelta = new Vector2(Mathf.Abs(_start.x - _end.x) * 1280f/Screen.width, Mathf.Abs(_start.y-_end.y)* 720f/Screen.height);
+    }
+
+    void CalculateDragRect()
+    {
+        // 범위 월드포지션 계산해주는 함수
+        if(Input.mousePosition.x < _start.x)
+        {
+            _dragRect.xMin = Input.mousePosition.x;
+            _dragRect.xMax = _start.x;
+        }
+        else
+        {
+            _dragRect.xMin = _start.x;
+            _dragRect.xMax = Input.mousePosition.x;
+        }
+
+        if(Input.mousePosition.y < _start.y)
+        {
+            _dragRect.yMin = Input.mousePosition.y;
+            _dragRect.yMax = _start.y;
+        }
+        else
+        {
+            _dragRect.yMin = _start.y;
+            _dragRect.yMax = Input.mousePosition.y;
         }
     }
 
-    void MouseDrag()
+    void SelectUnits()
     {
-
+        //foreach(GameObject unit in GenericSingleton<UnitPool>.getInstance().getUnitLists())
+        //{
+        //    if(unit.activeSelf == true && unit.GetComponent<UnitCon>() != null)
+        //    {
+        //        if(_dragRect.Contains(Camera.main.WorldToScreenPoint(unit.transform.position)))
+        //        {
+        //            DragSelectUnit(unit.GetComponent<UnitCon>());
+        //        }
+        //    }
+        //}
     }
 }

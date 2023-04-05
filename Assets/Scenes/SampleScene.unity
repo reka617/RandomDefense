@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 931636971}
   - component: {fileID: 931636970}
   - component: {fileID: 931636969}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UnitBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.2867036
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -601,8 +601,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.40255648, y: -0.0021998335, z: 0.0009673414, w: -0.91539204}
-  m_LocalPosition: {x: -0.3, y: 44.779217, z: -41.11}
+  m_LocalRotation: {x: -0.41896245, y: -0.0046289247, z: 0.0021067716, w: -0.9079894}
+  m_LocalPosition: {x: 0.18512484, y: 17.18721, z: -13.9446125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

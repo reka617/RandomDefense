@@ -1,19 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyTestCode : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] RectTransform _rect;
+    Vector2 _start = Vector2.zero;
+    Vector2 _end = Vector2.zero;
+
+    private void Update()
     {
-        GetTypeInstance<UnitCon> gti = new GetTypeInstance<UnitCon>();
-        UnitCon uc = gti.getInstance();
-        GetTypeInstance<PathMarkers> gti2 = new GetTypeInstance<PathMarkers>();
-        PathMarkers pm = gti2.getInstance();
-        
+        if(Input.GetMouseButtonDown(0))
+        {
+            _start = Input.mousePosition;
+        }
+        if(Input.GetMouseButton(0))
+        {
+            _end = Input.mousePosition;
+            DrawDragRect();
+        }
     }
 
+    void DrawDragRect()
+    {
+        _rect.position = (_start + _end) * 0.5f;
+        _rect.sizeDelta = new Vector2(Mathf.Abs(_start.x - _end.x), Mathf.Abs(_start.y-_end.y));
+    }
 }
 
 public class GetValue
@@ -22,13 +35,16 @@ public class GetValue
     {
         return new UnitCon();
     }
+    public PathMarkers getPathmarker()
+    {
+        return new PathMarkers();
+    }
 }
 
-public class GetTypeInstance<T> where T : new()
+public class GetTypeInstance <T> where T : new()
 {
     public T getInstance()
     {
         return new T();
     }
 }
-

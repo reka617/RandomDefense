@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using Utils;
 
 public class GameProcessor : MonoBehaviour
 {
@@ -20,20 +21,6 @@ public class GameProcessor : MonoBehaviour
     public void ChangeGameState(GameState state)
     {
         _state = state;
-        if(_state != null) _state.OnEnter();
+        if (_state != null) _state.OnEnter();
     }
 }
-
-public class GameState
-{
-    public virtual void MainLoop()
-    {
-
-    }
-    public virtual void OnEnter()
-    {
-
-    }
-
-
- }

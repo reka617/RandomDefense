@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,23 +7,24 @@ public class UnitCon : MonoBehaviour
     [SerializeField] GameObject _marker;
     EUnitType _eType;
     NavMeshAgent _agent;
-
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
     }
-
     public void Init(EUnitType eType)
     {
         _eType = eType;
     }
-    
+    public EUnitType getUnitType()
+    {
+        return _eType;
+    }
     public void SelectUnit()
     {
         _marker.SetActive(true);
     }
 
-    public void DeselectUnit()
+    public void DeSelectUnit()
     {
         _marker.SetActive(false);
     }
@@ -32,14 +32,6 @@ public class UnitCon : MonoBehaviour
     public void MoveTo(Vector3 dest)
     {
         _agent.SetDestination(dest);
-    }
-
-    
-
-    
-    public EUnitType GetUnitType() 
-    {
-        return _eType; 
     }
 
 }

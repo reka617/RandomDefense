@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class DefenseRunning : GameState
 {
@@ -11,8 +12,11 @@ public class DefenseRunning : GameState
     //실사용 데이터
     float _monTime = 0f;
     float _nowMonsterCount = 0;
-
-
+    public override void OnEnter()
+    {
+        GenericSingleton<UIData>.getInstance().Init();
+        GenericSingleton<RTSController>.getInstance().getUnitList();
+    }
     public override void MainLoop()
     {
         makeMonsterLoop();
@@ -23,16 +27,11 @@ public class DefenseRunning : GameState
         _monTime += Time.deltaTime;
         if (_monTime >= _monDelay && _nowMonsterCount < _monCount)
         {
+            //MonsterManager.getInstance().AddMonster();
             GenericSingleton<MonsterManager>.getInstance().AddMonster();
             _monTime = 0f;
             _nowMonsterCount++;
         }
-    }
-
-    public override void OnEnter()
-    {
-        GenericSingleton<UIData>.getInstance().Init();
-        GenericSingleton<RTSController>.getInstance().getUnitList();
     }
     IEnumerator CoWhile()
     {
