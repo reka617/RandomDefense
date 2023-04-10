@@ -8,10 +8,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject _saleUI;
     [SerializeField] RectTransform _drawRect;
     [SerializeField] GameObject _unitInfoPanel;
-    public RectTransform getRectUI()
-    {
-        return _drawRect;
-    }
+    public RectTransform getRectUI { get { return _drawRect; } }
+
     public void UnitInfoOnOff(bool _isOpen)
     {
         _unitInfoPanel.SetActive(_isOpen);

@@ -12,11 +12,8 @@ public class RTSController : MonoBehaviour
     Vector2 _end = Vector2.zero;
 
     List<UnitCon> selectedUnitList = new List<UnitCon>();
-    public List<UnitCon> getUnitList()
-    {
-        return selectedUnitList;
-    }
-    
+    public List<UnitCon> getUnitList { get { return selectedUnitList; } }
+  
     public void ClickSelectUnit(UnitCon unit)
     {
         DeSelectAll();
@@ -47,19 +44,19 @@ public class RTSController : MonoBehaviour
             selectedUnitList[i].DeSelectUnit();
         }
         selectedUnitList.Clear();
-        GenericSingleton<UIData>.getInstance().SetUnitInfo(false);
+        GenericSingleton<UIData>.Instance.SetUnitInfo(false);
     }
     void SelectUnit(UnitCon unit)
     {
         unit.SelectUnit();
         selectedUnitList.Add(unit);
-        GenericSingleton<UIData>.getInstance().SetUnitInfo(true);
+        GenericSingleton<UIData>.Instance.SetUnitInfo(true);
     }
     void DeSelectUnit(UnitCon unit)
     {
         unit.DeSelectUnit();
         selectedUnitList.Remove(unit);
-        if (selectedUnitList.Count <= 0) GenericSingleton<UIData>.getInstance().SetUnitInfo(false);
+        if (selectedUnitList.Count <= 0) GenericSingleton<UIData>.Instance.SetUnitInfo(false);
     }
     public void MoveSelectedUnits(Vector3 dest)
     {
@@ -87,11 +84,11 @@ public class RTSController : MonoBehaviour
                 if (con == null) return;
                 if(Input.GetKey(KeyCode.LeftShift))
                 {
-                    GenericSingleton<RTSController>.getInstance().ShiftClickSelectUnit(con);
+                    GenericSingleton<RTSController>.Instance.ShiftClickSelectUnit(con);
                 }
                 else
                 {
-                    GenericSingleton<RTSController>.getInstance().ClickSelectUnit(con);
+                    GenericSingleton<RTSController>.Instance.ClickSelectUnit(con);
                 }
             }
             else
@@ -145,8 +142,8 @@ public class RTSController : MonoBehaviour
     }
     void DrawDragRect()
     {
-        GenericSingleton<UIData>.getInstance().getRect().position = (_start + _end) * 0.5f;
-        GenericSingleton<UIData>.getInstance().getRect().sizeDelta = new Vector2(Mathf.Abs(_start.x - _end.x) * 1280f/Screen.width, Mathf.Abs(_start.y-_end.y)* 720f/Screen.height);
+        GenericSingleton<UIData>.Instance.getRect.position = (_start + _end) * 0.5f;
+        GenericSingleton<UIData>.Instance.getRect.sizeDelta = new Vector2(Mathf.Abs(_start.x - _end.x) * 1280f/Screen.width, Mathf.Abs(_start.y-_end.y)* 720f/Screen.height);
     }
 
     void CalculateDragRect()

@@ -29,16 +29,19 @@ public class UnitPool : MonoBehaviour
         }
     }
 
-    public List<GameObject> getUnitLists()
+    public List<GameObject> getUnitLists
     {
-        return _lstObj;
+        get
+        {
+            return _lstObj;
+        }
     }
 
     public GameObject getPoolObject(EUnitType eType)
     {
         foreach(GameObject data in _lstObj)
         {
-            if(data.activeSelf == false && data.GetComponent<UnitCon>().getUnitType() == eType) // 이미 만들어진 게임오브젝트가 같은 타입인지 체크
+            if(data.activeSelf == false && data.GetComponent<UnitCon>().getUnitType == eType) // 이미 만들어진 게임오브젝트가 같은 타입인지 체크
             {
                 data.SetActive(true);
                 return data;

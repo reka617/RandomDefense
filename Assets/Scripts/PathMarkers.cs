@@ -5,5 +5,5 @@ using UnityEngine;
 public class PathMarkers : MonoBehaviour
 {
     [SerializeField] Transform[] _paths;
-    public Transform[] getPaths() { return _paths; }
+    public Transform[] getPaths { get { return _paths; } }
 }

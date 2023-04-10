@@ -7,6 +7,7 @@ public class UnitCon : MonoBehaviour
     [SerializeField] GameObject _marker;
     EUnitType _eType;
     NavMeshAgent _agent;
+    UnitState _state; 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -15,9 +16,13 @@ public class UnitCon : MonoBehaviour
     {
         _eType = eType;
     }
-    public EUnitType getUnitType()
+    public EUnitType getUnitType
     {
-        return _eType;
+        get
+        {
+            return _eType;
+        }
+        
     }
     public void SelectUnit()
     {
@@ -34,4 +39,38 @@ public class UnitCon : MonoBehaviour
         _agent.SetDestination(dest);
     }
 
+    private void Update()
+    {
+        if(_state != null) _state.MainLoop();
+    }
+
+    public void ChangeUnitState(UnitState state)
+    {
+        _state = state;
+        if (_state != null) _state.OnEnter(this);
+    }
+
+    public bool isMoveEnd()
+    {
+        if (_agent.remainingDistance < -0) return true;
+        return false;
+    }
 }
+
+public class UnitState
+{
+    protected UnitCon _unit;
+    public virtual void OnEnter(UnitCon unit)
+    {
+        _unit = unit;
+
+    }
+
+    public virtual void MainLoop() 
+    {
+
+    }
+
+
+}
+

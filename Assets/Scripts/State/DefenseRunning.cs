@@ -14,8 +14,8 @@ public class DefenseRunning : GameState
     float _nowMonsterCount = 0;
     public override void OnEnter()
     {
-        GenericSingleton<UIData>.getInstance().Init();
-        GenericSingleton<RTSController>.getInstance().getUnitList();
+        GenericSingleton<UIData>.Instance.Init();
+        var unitList = GenericSingleton<RTSController>.Instance.getUnitList;
     }
     public override void MainLoop()
     {
@@ -28,7 +28,7 @@ public class DefenseRunning : GameState
         if (_monTime >= _monDelay && _nowMonsterCount < _monCount)
         {
             //MonsterManager.getInstance().AddMonster();
-            GenericSingleton<MonsterManager>.getInstance().AddMonster();
+            GenericSingleton<MonsterManager>.Instance.AddMonster();
             _monTime = 0f;
             _nowMonsterCount++;
         }

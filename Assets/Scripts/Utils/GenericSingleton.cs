@@ -5,15 +5,18 @@ namespace Utils
     public class GenericSingleton<T> where T : MonoBehaviour
     {
         private static T _instance;
-        public static T getInstance()
+        public static T Instance
         {
-            if(_instance == null)
+            get
             {
-                GameObject temp = new GameObject();
-                _instance = temp.AddComponent<T>();
-                Object.DontDestroyOnLoad(temp);
+                if (_instance == null)
+                {
+                    GameObject temp = new GameObject();
+                    _instance = temp.AddComponent<T>();
+                    Object.DontDestroyOnLoad(temp);
+                }
+                return _instance;
             }
-            return _instance;
         }
     }
 }

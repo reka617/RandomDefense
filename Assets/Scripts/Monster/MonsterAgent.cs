@@ -16,7 +16,7 @@ public class MonsterAgent : MonoBehaviour
     public void Init(Monster monData)
     {
         _monData= monData;
-        _paths =GenericSingleton<MonsterManager>.getInstance().getMarkers();
+        _paths =GenericSingleton<MonsterManager>.Instance.getMarkers;
         _agent = GetComponent<NavMeshAgent>();
         _nowHP = _monData.HP;
         _speed = _monData.SPEED;
@@ -25,12 +25,12 @@ public class MonsterAgent : MonoBehaviour
     {
         if (_paths == null) return;
         //목표 포지션과 거리 체크해서 다음 포지션으로 업데이트
-        if (Mathf.Abs(Vector3.Distance(transform.position, _paths.getPaths()[_pathIndex].position)) < 0.45f)
+        if (Mathf.Abs(Vector3.Distance(transform.position, _paths.getPaths[_pathIndex].position)) < 0.45f)
         {
             _pathIndex++;
-            if (_pathIndex >= _paths.getPaths().Length) _pathIndex = 0;
+            if (_pathIndex >= _paths.getPaths.Length) _pathIndex = 0;
         }
-        _agent.SetDestination(_paths.getPaths()[_pathIndex].position);
+        _agent.SetDestination(_paths.getPaths[_pathIndex].position);
     }
     private void OnTriggerEnter(Collider other)
     {

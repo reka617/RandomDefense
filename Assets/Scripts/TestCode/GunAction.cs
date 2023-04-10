@@ -1,6 +1,6 @@
 using TMPro.EditorUtilities;
 using TMPro.SpriteAssetUtilities;
-using Unity.Burst.CompilerServices;
+
 using UnityEngine;
 
 public class GunAction : MonoBehaviour

@@ -11,9 +11,12 @@ public class UIData : MonoBehaviour
         _manager = Instantiate(_uiMain).GetComponent<UIManager>();
     }
 
-    public RectTransform getRect()
+    public RectTransform getRect
     {
-        return _manager.getRectUI();
+        get
+        {
+            return _manager.getRectUI;
+        }
     }
     public void SetUnitInfo(bool _isOpen)
     {
