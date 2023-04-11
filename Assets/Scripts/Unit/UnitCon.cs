@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Utils;
 
 public class UnitCon : MonoBehaviour
 {
@@ -16,14 +17,7 @@ public class UnitCon : MonoBehaviour
     {
         _eType = eType;
     }
-    public EUnitType getUnitType
-    {
-        get
-        {
-            return _eType;
-        }
-        
-    }
+    public EUnitType getUnitType { get{ return _eType;}}
     public void SelectUnit()
     {
         _marker.SetActive(true);
@@ -41,7 +35,9 @@ public class UnitCon : MonoBehaviour
 
     private void Update()
     {
+        if (_state == null) _state = new UnitSearchState();
         if(_state != null) _state.MainLoop();
+        Debug.Log("현재 상태 :" + _state);
     }
 
     public void ChangeUnitState(UnitState state)

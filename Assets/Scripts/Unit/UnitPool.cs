@@ -25,7 +25,7 @@ public class UnitPool : MonoBehaviour
         _unitObjs = new GameObject[(int)EUnitType.Max];
         for(int i = 0; i < (int)EUnitType.Max; i++)
         {
-            _unitObjs[i] = Resources.Load("Prefabs/"+(EUnitType)i) as GameObject;
+            _unitObjs[i] = Resources.Load("Prefabs/Unit/"+(EUnitType)i) as GameObject;
         }
     }
 

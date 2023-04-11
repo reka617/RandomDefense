@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
@@ -44,6 +45,7 @@ public class UnitSearchState : UnitState
             _target = GenericSingleton<MonsterManager>.Instance.GetTarget(_unit.transform.position, 3); // 타겟 검색 함수 실행
             if(_target != null ) 
             {
+                Debug.Log("타겟찾음");  
                 _unit.ChangeUnitState(new UnitAttackState());
             }
             
@@ -55,6 +57,7 @@ public class UnitSearchState : UnitState
 
 public class UnitAttackState : UnitState
 {
+    List<UnitCon> _lstUnit = new List<UnitCon>();
     public override void OnEnter(UnitCon unit)
     {
         base.OnEnter(unit);
@@ -62,6 +65,16 @@ public class UnitAttackState : UnitState
 
     public override void MainLoop() 
     {
+        _lstUnit = GenericSingleton<RTSController>.Instance.getUnitList;
         //타겟을 선택해서 해당 타겟에서 투사체를 발사
+        for (int i = 0; _lstUnit.Count < _lstUnit.Count; i++)
+        {
+            MonsterAgent target = GenericSingleton<MonsterManager>.Instance.GetTarget(_lstUnit[i].transform.position, 5);
+            if (target != null)
+            {
+                GenericSingleton<BulletFactory>.Instance.MakeBullet(EBulletType.fastBullet, 10, target, _lstUnit[i].transform.position);
+                _lstUnit[i].ChangeUnitState(new UnitSearchState());
+            }
+        }
     }
 }

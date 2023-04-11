@@ -41,7 +41,7 @@ public class MonsterManager : MonoBehaviour
         {
             _cubeMonster = Resources.Load("Prefabs/CubeMonster") as GameObject;
         }
-        var mark = getMarkers;
+        var mark = getMarkers; // 초기화 기능을 따로 뺴서 호출
         MonsterAgent mon = Instantiate(_cubeMonster).GetComponent<MonsterAgent>();
         mon.transform.position = _marker.getPaths[0].position;
         // 임시 코드

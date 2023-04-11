@@ -174,15 +174,15 @@ public class RTSController : MonoBehaviour
 
     void SelectUnits()
     {
-        //foreach(GameObject unit in GenericSingleton<UnitPool>.getInstance().getUnitLists())
-        //{
-        //    if(unit.activeSelf == true && unit.GetComponent<UnitCon>() != null)
-        //    {
-        //        if(_dragRect.Contains(Camera.main.WorldToScreenPoint(unit.transform.position)))
-        //        {
-        //            DragSelectUnit(unit.GetComponent<UnitCon>());
-        //        }
-        //    }
-        //}
+        foreach (GameObject unit in GenericSingleton<UnitPool>.Instance.getUnitLists)
+        {
+            if (unit.activeSelf == true && unit.GetComponent<UnitCon>() != null)
+            {
+                if (_dragRect.Contains(Camera.main.WorldToScreenPoint(unit.transform.position)))
+                {
+                    DragSelectUnit(unit.GetComponent<UnitCon>());
+                }
+            }
+        }
     }
 }
